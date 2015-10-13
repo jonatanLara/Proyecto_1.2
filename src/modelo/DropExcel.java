@@ -25,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import vista.Email;
+import vista.ViewPrincipal;
 
 /**
  *
@@ -43,6 +45,8 @@ public class DropExcel  implements DropTargetListener{
     private Estudiante estudiante = new Estudiante();
     private Repetidor1 repetidor1 = new Repetidor1();
     private Calificaciones calificaciones = new Calificaciones();
+    //-----------------------------------------------
+    
      public DropExcel(JTable table) {
         this.jtable = table;
         dt = new DropTarget(jtable, this);
@@ -90,7 +94,8 @@ public class DropExcel  implements DropTargetListener{
                             if (file.getName().endsWith("xls")) {
                                 //lee e importa los datos//
                                 readXlS(file);
-
+                                ViewPrincipal principal = new ViewPrincipal();
+                                principal.readLine(true);
                             } else {
                                 JOptionPane.showMessageDialog(null, "no es un archivo compaible");
                             }
@@ -105,13 +110,16 @@ public class DropExcel  implements DropTargetListener{
                 }
             }
             System.err.println("Drop fallido " + dtde);
+            
             dtde.rejectDrop();
             //  }HeadlessException | UnsupportedFlavorException | IO
         } catch (Exception e) {
             System.err.println("Error en el try catch " + e.getMessage());
             dtde.rejectDrop();
+           
         }
     }
+    
     /**
      * @readXls resive un parametro de tipo File el cual archivo con extension
      * xls

@@ -5,22 +5,19 @@
  */
 package vista;
 
-import modelo.DropExcel;
-
 /**
  *
  * @author Jonatan Lara
  */
-public class TablaExcel extends javax.swing.JPanel {
+public class tabla extends javax.swing.JPanel {
 
-    DropExcel drop;
-    public TablaExcel() {
+    /**
+     * Creates new form tabla
+     */
+    public tabla() {
         initComponents();
-         drop = new DropExcel(TablaDatos);
-         
     }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -31,9 +28,9 @@ public class TablaExcel extends javax.swing.JPanel {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaDatos = new javax.swing.JTable();
+        jTable1 = new javax.swing.JTable();
 
-        TablaDatos.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -44,38 +41,29 @@ public class TablaExcel extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TablaDatos);
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    
-    public void datos(){
-        drop.id();
-        drop.nombre();
-        drop.prog();
-        drop.estatus();
-        drop.leerDatos();
-    }
-    public void impresion(){
-        drop.impresion();
-    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TablaDatos;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

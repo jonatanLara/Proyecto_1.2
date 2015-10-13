@@ -18,7 +18,7 @@ public class Calificaciones {
     public Calificaciones() {
     }
     
-    public void Comprobar(String aux,String cal){
+    public void Comprobar(String aux ,String cal){
         if (aux.equals("CO01")) {
             setC001(cal);
         }

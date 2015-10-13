@@ -6,31 +6,54 @@
 package vista;
 
 import background.background;
+import conectar.conexion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
+import org.jvnet.substance.SubstanceLookAndFeel;
 
 /**
  *
  * @author Jonatan Lara
  */
 public class ViewPrincipal extends javax.swing.JFrame {
-    
+     
     private final background fondo = new background("Unid_conecta.png");
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-    TablaExcel tabla = new TablaExcel();;
-    
+    TablaExcel tabla= new TablaExcel();;
+    conexion conectar = new conexion();
     public ViewPrincipal() {
         setContentPane(fondo);
         initComponents();
         Panel.setBackground(new Color(0, 0, 0, 5));
         sizeWindows();
+        HiloCargarDB hilo = new HiloCargarDB();
+        hilo.start();
+        lbConexion.setEnabled(false);
+        btGuardar.setEnabled(false);
+        btBuscar.setEnabled(false);
     }
     public void sizeWindows(){
        // System.out.println("tu resolucion es " + screenSize.width + "x" + screenSize.height);
         this.setSize(screenSize.width, screenSize.height);
+        
     }
+    private void conetarDB(){
+        conectar.conectar(lbConexion);
+        if (conectar.isEmpyConexion()!=true) {
+            btGuardar.setEnabled(false);
+            btBuscar.setEnabled(false);
+        }else{
+            btGuardar.setEnabled(true);
+            btBuscar.setEnabled(true);
+        }
+        
+    }
+    
     public void InicioPanel(){
         int W = Panel.getWidth();
         int H = Panel.getHeight();
@@ -39,6 +62,18 @@ public class ViewPrincipal extends javax.swing.JFrame {
         Panel.add("Center",tabla);
         Panel.updateUI();
         Panel.validate();
+    }
+    private class HiloCargarDB extends Thread {
+          @Override
+          public void run() {
+            try {
+                // ESPERO 1 SEG 
+                Thread.sleep(2500);
+            } catch (InterruptedException ex) {
+                 Logger.getLogger(ViewPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            conetarDB();
+        }
     }
     
     /**
@@ -57,8 +92,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btGuardar = new javax.swing.JButton();
         btEmail = new javax.swing.JButton();
         btPag = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        btBuscar = new javax.swing.JButton();
+        lbConexion = new javax.swing.JLabel();
         Panel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -69,6 +104,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/document298 (1).png"))); // NOI18N
+        btNuevo.setToolTipText("Nuevo*");
         btNuevo.setBorderPainted(false);
         btNuevo.setContentAreaFilled(false);
         btNuevo.setFocusable(false);
@@ -83,6 +119,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jToolBar1.add(btNuevo);
 
         btRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/refresh85 (1).png"))); // NOI18N
+        btRefresh.setToolTipText("Recargar");
         btRefresh.setBorderPainted(false);
         btRefresh.setContentAreaFilled(false);
         btRefresh.setFocusable(false);
@@ -97,6 +134,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jToolBar1.add(btRefresh);
 
         btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paper6.png"))); // NOI18N
+        btImprimir.setToolTipText("Imprimir");
         btImprimir.setBorderPainted(false);
         btImprimir.setContentAreaFilled(false);
         btImprimir.setFocusable(false);
@@ -111,6 +149,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jToolBar1.add(btImprimir);
 
         btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save31.png"))); // NOI18N
+        btGuardar.setToolTipText("Guardar");
         btGuardar.setBorderPainted(false);
         btGuardar.setContentAreaFilled(false);
         btGuardar.setFocusable(false);
@@ -125,15 +164,22 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jToolBar1.add(btGuardar);
 
         btEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/envelope91 (1).png"))); // NOI18N
+        btEmail.setToolTipText("Email");
         btEmail.setBorderPainted(false);
         btEmail.setContentAreaFilled(false);
         btEmail.setFocusable(false);
         btEmail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btEmail.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/envelope91.png"))); // NOI18N
         btEmail.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEmailActionPerformed(evt);
+            }
+        });
         jToolBar1.add(btEmail);
 
         btPag.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/international38.png"))); // NOI18N
+        btPag.setToolTipText("Navegador");
         btPag.setBorderPainted(false);
         btPag.setContentAreaFilled(false);
         btPag.setFocusable(false);
@@ -142,18 +188,24 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jToolBar1.add(btPag);
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking (1).png"))); // NOI18N
-        jButton1.setBorderPainted(false);
-        jButton1.setContentAreaFilled(false);
-        jButton1.setFocusPainted(false);
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking.png"))); // NOI18N
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(jButton1);
+        btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking (1).png"))); // NOI18N
+        btBuscar.setToolTipText("Buscar");
+        btBuscar.setBorderPainted(false);
+        btBuscar.setContentAreaFilled(false);
+        btBuscar.setFocusPainted(false);
+        btBuscar.setFocusable(false);
+        btBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btBuscar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking.png"))); // NOI18N
+        btBuscar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btBuscarActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(btBuscar);
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/bus_verde.png"))); // NOI18N
-        jToolBar1.add(jLabel1);
+        lbConexion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/bus_verde.png"))); // NOI18N
+        jToolBar1.add(lbConexion);
 
         javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
         Panel.setLayout(PanelLayout);
@@ -166,10 +218,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             .addGap(0, 232, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -195,14 +244,25 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void readLine(boolean read){
+        /*
+        btImprimir.setEnabled(read);
+        btGuardar.setEnabled(read);*/
+    }
+    
+    public void Enabledfalse(){
+        /*btGuardar.setEnabled(false);
+        btImprimir.setEnabled(false);*/
+    }
     private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
         Panel.removeAll();
-        InicioPanel(); 
+        InicioPanel();
+        Enabledfalse();
     }//GEN-LAST:event_btNuevoActionPerformed
 
     private void btRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshActionPerformed
         InicioPanel();
+        
     }//GEN-LAST:event_btRefreshActionPerformed
 
     private void btGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGuardarActionPerformed
@@ -213,6 +273,25 @@ public class ViewPrincipal extends javax.swing.JFrame {
        tabla.impresion();
     }//GEN-LAST:event_btImprimirActionPerformed
 
+    private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
+        Panel.removeAll();
+        search();
+    }//GEN-LAST:event_btBuscarActionPerformed
+
+    private void btEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEmailActionPerformed
+        Email email  = new  Email(this, true);
+        email.setVisible(true);
+    }//GEN-LAST:event_btEmailActionPerformed
+    public void search(){
+        Search search = new Search();
+        int W = Panel.getWidth();
+        int H = Panel.getHeight();
+        Panel.setLayout(new BorderLayout());
+        search.setPreferredSize(new Dimension(W, H));
+        Panel.add("Center",search);
+        Panel.updateUI();
+        Panel.validate();
+    }
     /**
      * @param args the command line arguments
      */
@@ -243,6 +322,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
+                JFrame.setDefaultLookAndFeelDecorated(true);
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlackSteelSkin");
                 new ViewPrincipal().setVisible(true);
             }
         });
@@ -250,17 +331,17 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Panel;
+    private javax.swing.JButton btBuscar;
     private javax.swing.JButton btEmail;
     private javax.swing.JButton btGuardar;
     private javax.swing.JButton btImprimir;
     private javax.swing.JButton btNuevo;
     private javax.swing.JButton btPag;
     private javax.swing.JButton btRefresh;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JLabel lbConexion;
     // End of variables declaration//GEN-END:variables
 }
