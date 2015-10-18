@@ -13,8 +13,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
-import org.jvnet.substance.SubstanceLookAndFeel;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -33,6 +32,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         sizeWindows();
         HiloCargarDB hilo = new HiloCargarDB();
         hilo.start();
+        iconoAplication();
         lbConexion.setEnabled(false);
         btGuardar.setEnabled(false);
         btBuscar.setEnabled(false);
@@ -75,7 +75,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
             conetarDB();
         }
     }
-    
+    public void iconoAplication(){
+        try {
+            setIconImage(new ImageIcon(getClass().getResource("/icons/IconUnid.png")).getImage());
+        } catch (Exception e) {
+        } 
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,7 +90,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jToolBar1 = new javax.swing.JToolBar();
+        Panel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         btNuevo = new javax.swing.JButton();
         btRefresh = new javax.swing.JButton();
         btImprimir = new javax.swing.JButton();
@@ -94,14 +100,24 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag = new javax.swing.JButton();
         btBuscar = new javax.swing.JButton();
         lbConexion = new javax.swing.JLabel();
-        Panel = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jToolBar1.setRollover(true);
+        javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
+        Panel.setLayout(PanelLayout);
+        PanelLayout.setHorizontalGroup(
+            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        PanelLayout.setVerticalGroup(
+            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 345, Short.MAX_VALUE)
+        );
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/document298 (1).png"))); // NOI18N
         btNuevo.setToolTipText("Nuevo*");
@@ -116,7 +132,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btNuevoActionPerformed(evt);
             }
         });
-        jToolBar1.add(btNuevo);
 
         btRefresh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/refresh85 (1).png"))); // NOI18N
         btRefresh.setToolTipText("Recargar");
@@ -131,7 +146,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btRefreshActionPerformed(evt);
             }
         });
-        jToolBar1.add(btRefresh);
 
         btImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paper6.png"))); // NOI18N
         btImprimir.setToolTipText("Imprimir");
@@ -146,7 +160,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btImprimirActionPerformed(evt);
             }
         });
-        jToolBar1.add(btImprimir);
 
         btGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save31.png"))); // NOI18N
         btGuardar.setToolTipText("Guardar");
@@ -161,7 +174,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btGuardarActionPerformed(evt);
             }
         });
-        jToolBar1.add(btGuardar);
 
         btEmail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/envelope91 (1).png"))); // NOI18N
         btEmail.setToolTipText("Email");
@@ -176,7 +188,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btEmailActionPerformed(evt);
             }
         });
-        jToolBar1.add(btEmail);
 
         btPag.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/international38.png"))); // NOI18N
         btPag.setToolTipText("Navegador");
@@ -186,7 +197,6 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btPag.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/international38 (1).png"))); // NOI18N
         btPag.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jToolBar1.add(btPag);
 
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking (1).png"))); // NOI18N
         btBuscar.setToolTipText("Buscar");
@@ -202,20 +212,46 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 btBuscarActionPerformed(evt);
             }
         });
-        jToolBar1.add(btBuscar);
 
         lbConexion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/bus_verde.png"))); // NOI18N
-        jToolBar1.add(lbConexion);
 
-        javax.swing.GroupLayout PanelLayout = new javax.swing.GroupLayout(Panel);
-        Panel.setLayout(PanelLayout);
-        PanelLayout.setHorizontalGroup(
-            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btPag, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbConexion)
+                .addContainerGap(312, Short.MAX_VALUE))
         );
-        PanelLayout.setVerticalGroup(
-            PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 232, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btPag, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenuBar1.add(jMenu1);
@@ -227,16 +263,18 @@ public class ViewPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -322,8 +360,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame.setDefaultLookAndFeelDecorated(true);
-                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlackSteelSkin");
+                /*JFrame.setDefaultLookAndFeelDecorated(true);
+                SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlackSteelSkin");*/
                 new ViewPrincipal().setVisible(true);
             }
         });
@@ -341,7 +379,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JToolBar jToolBar1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbConexion;
     // End of variables declaration//GEN-END:variables
 }
