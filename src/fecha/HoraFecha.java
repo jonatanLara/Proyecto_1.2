@@ -46,6 +46,17 @@ public class HoraFecha {
         int hora = cale.get(Calendar.HOUR_OF_DAY);
         String fechayfecha = dias[diaSemana-1]+". "+dia+" de "+meses[mes]+" de "+ano+" Hora "+ hora+":"+minuto+":"+seguundo;
         return fechayfecha;
+    
     }
     
+    /*
+    import java.util.Calendar;
+    public String CalendarChoset(jDataChooser chooser){
+        String fecha;
+        fecha = chooser.getCalendar().get(Calendar.YEAR)+"/"
+                    +(chooser.getCalendar().get(Calendar.MONTH)+1)+"/"
+                    +chooser.getCalendar().get(Calendar.DATE);
+        return fecha;
+    }
+    */
 }

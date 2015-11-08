@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9facd5b9-f111-4c10-9c2e-d1447dbd66d3">
-	<property name="ireport.zoom" value="0.75"/>
-	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="10"/>
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="500"/>
+	<property name="ireport.y" value="136"/>
 	<parameter name="id" class="java.lang.String"/>
 	<parameter name="nombre" class="java.lang.String"/>
 	<parameter name="prog" class="java.lang.String"/>
@@ -150,7 +150,7 @@
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="329" splitType="Stretch">
+		<band height="320" splitType="Stretch">
 			<rectangle>
 				<reportElement x="68" y="3" width="65" height="17" uuid="0abc1a04-bd14-476d-88c9-6ebd829317cf"/>
 			</rectangle>
@@ -1904,48 +1904,6 @@
 				<textFieldExpression><![CDATA[$P{g_va02}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="416" y="60" width="18" height="8" uuid="9d68eabf-1df9-4bbb-8cfa-46995d4cc56a"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_ss08}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="416" y="110" width="18" height="8" uuid="0e155ffb-83ff-4ddb-902d-957e2cd0f2ce"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_ss12}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="416" y="161" width="18" height="8" uuid="16217dc6-ef1f-4f2a-9c1d-f97c4f3bcfd6"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_ss10}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="416" y="211" width="18" height="8" uuid="793403cb-f005-4755-bcf6-78e5d48205e1"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_ad23}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="414" y="260" width="18" height="8" uuid="19b1132f-22d6-4c60-8bfa-a6dcc9e40650"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_iv02}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="482" y="310" width="18" height="8" uuid="fb19d679-3d6a-4854-926f-d905749b6c53"/>
-				<textElement textAlignment="Center" verticalAlignment="Bottom">
-					<font size="6"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{n_ee01}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="545" y="60" width="18" height="8" uuid="abf504cb-7e00-460c-a1ef-60258c2a8fa5"/>
 				<textElement textAlignment="Center" verticalAlignment="Bottom">
 					<font size="6"/>
@@ -2070,6 +2028,48 @@
 					<font size="6"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{g_iv01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="60" width="18" height="8" uuid="9375a7ec-60f7-457b-9eec-e14a67328082"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_ss08}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="110" width="18" height="8" uuid="adf7595b-0f94-42ba-be74-4c6c942d08d6"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_ss12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="160" width="18" height="8" uuid="4d546e4d-56b9-40b8-938f-f00337fcb22d"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_ss10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="210" width="18" height="8" uuid="ec1edfc0-9ec8-42a7-b4bd-d168a99c2748"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_ad23}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="415" y="260" width="18" height="8" uuid="d187b533-ee16-4fc7-9acf-7f024580e4e9"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_iv02}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="310" width="18" height="8" uuid="6d80872e-223f-4543-8f0a-ac7a7d79ac19"/>
+				<textElement>
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{g_ee01}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

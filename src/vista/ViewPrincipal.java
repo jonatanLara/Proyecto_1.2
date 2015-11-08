@@ -14,6 +14,7 @@ import java.awt.Toolkit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 /**
  *
@@ -23,6 +24,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
      
     private final background fondo = new background("Unid_conecta.png");
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    private JLabel barra_fondo = new JLabel(new ImageIcon(getClass().getResource("/icons/barra_fondo.png")));
     TablaExcel tabla= new TablaExcel();;
     conexion conectar = new conexion();
     public ViewPrincipal() {
@@ -36,9 +38,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
         lbConexion.setEnabled(false);
         btGuardar.setEnabled(false);
         btBuscar.setEnabled(false);
+        barra_fondo.setBounds(0, 0,1366, 50);
+        jPanel1.add("Center", barra_fondo);
+        
     }
     public void sizeWindows(){
-       // System.out.println("tu resolucion es " + screenSize.width + "x" + screenSize.height);
+        System.out.println("tu resolucion es " + screenSize.width + "x" + screenSize.height);
         this.setSize(screenSize.width, screenSize.height);
         
     }
@@ -114,15 +119,19 @@ public class ViewPrincipal extends javax.swing.JFrame {
         );
         PanelLayout.setVerticalGroup(
             PanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 345, Short.MAX_VALUE)
+            .addGap(0, 359, Short.MAX_VALUE)
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setAlignmentY(0.0F);
+        jPanel1.setMinimumSize(new java.awt.Dimension(0, 2));
+        jPanel1.setPreferredSize(new java.awt.Dimension(636, 40));
 
         btNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/document298 (1).png"))); // NOI18N
         btNuevo.setToolTipText("Nuevo*");
         btNuevo.setBorderPainted(false);
         btNuevo.setContentAreaFilled(false);
+        btNuevo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btNuevo.setFocusable(false);
         btNuevo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btNuevo.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/document298.png"))); // NOI18N
@@ -137,6 +146,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btRefresh.setToolTipText("Recargar");
         btRefresh.setBorderPainted(false);
         btRefresh.setContentAreaFilled(false);
+        btRefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btRefresh.setFocusable(false);
         btRefresh.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btRefresh.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/refresh.png"))); // NOI18N
@@ -151,6 +161,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btImprimir.setToolTipText("Imprimir");
         btImprimir.setBorderPainted(false);
         btImprimir.setContentAreaFilled(false);
+        btImprimir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btImprimir.setFocusable(false);
         btImprimir.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btImprimir.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/paper6 (1).png"))); // NOI18N
@@ -165,6 +176,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btGuardar.setToolTipText("Guardar");
         btGuardar.setBorderPainted(false);
         btGuardar.setContentAreaFilled(false);
+        btGuardar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btGuardar.setFocusable(false);
         btGuardar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btGuardar.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/save31 (1).png"))); // NOI18N
@@ -179,6 +191,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btEmail.setToolTipText("Email");
         btEmail.setBorderPainted(false);
         btEmail.setContentAreaFilled(false);
+        btEmail.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btEmail.setFocusable(false);
         btEmail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btEmail.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/envelope91.png"))); // NOI18N
@@ -193,6 +206,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag.setToolTipText("Navegador");
         btPag.setBorderPainted(false);
         btPag.setContentAreaFilled(false);
+        btPag.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btPag.setFocusable(false);
         btPag.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btPag.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/international38 (1).png"))); // NOI18N
@@ -202,6 +216,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btBuscar.setToolTipText("Buscar");
         btBuscar.setBorderPainted(false);
         btBuscar.setContentAreaFilled(false);
+        btBuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btBuscar.setFocusPainted(false);
         btBuscar.setFocusable(false);
         btBuscar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -220,11 +235,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
                 .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(2, 2, 2)
                 .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -275,27 +290,19 @@ public class ViewPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(Panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    public void readLine(boolean read){
-        /*
-        btImprimir.setEnabled(read);
-        btGuardar.setEnabled(read);*/
-    }
+   
     
-    public void Enabledfalse(){
-        /*btGuardar.setEnabled(false);
-        btImprimir.setEnabled(false);*/
-    }
+  
     private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
         Panel.removeAll();
         InicioPanel();
-        Enabledfalse();
     }//GEN-LAST:event_btNuevoActionPerformed
 
     private void btRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshActionPerformed

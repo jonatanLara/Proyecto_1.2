@@ -33,13 +33,13 @@ public class conexion {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, login, password);
             if (conn != null) {
-                notify.notifyConection("Conexion ", "Conexion exitosa",notify.Wifi);
+                notify.notifyConection("Conexion ", "Conexion exitosa",true);
                 st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 
         }
         } catch (SQLException ex) {
             String er="se produjo un problema al conectar con la base de datos";
-            notify.notifyAlert("Conexion", er,notify.error);
+            notify.notifyConection("Conexion", er,false);
         } catch (ClassNotFoundException ex) {
             System.out.println(ex);
             
@@ -54,7 +54,7 @@ public class conexion {
             Class.forName("com.mysql.jdbc.Driver");
             conn = DriverManager.getConnection(url, login, password);
             if (conn != null) {
-                notify.notifyConection("Conexion ", "Conexion exitosa",notify.Wifi);
+                notify.notifyConection("Conexion ", "Conexion exitosa",true);
                 st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 lb.setEnabled(true);
                 lb.setToolTipText("Conexion Activada");
@@ -62,7 +62,7 @@ public class conexion {
         }
         } catch (SQLException ex) {
             String er="se produjo un problema al conectar con la base de datos";
-            notify.notifyAlert("Conexion", er,notify.error);
+            notify.notifyConection("Conexion", er,false);
             lb.setEnabled(false);
             isEmpyConection= false;
             lb.setToolTipText("No conectado");
@@ -78,6 +78,7 @@ public class conexion {
         return conn;
     
     }
+    
     boolean isEmpyConection;
     public boolean isEmpyConexion(){
            return isEmpyConection;

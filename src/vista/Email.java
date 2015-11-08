@@ -21,6 +21,8 @@ public class Email extends javax.swing.JDialog {
         initComponents();
         this.setLocationRelativeTo(null);
         iconoAplication();
+        txtDe.setText(""+"@red.unid.mx");
+        txtPara.setText(""+"@red.unid.mx");
     }
 
     public String getArchivo() {
@@ -51,8 +53,8 @@ public class Email extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtPara = new javax.swing.JTextField();
+        txtDe = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
@@ -85,13 +87,13 @@ public class Email extends javax.swing.JDialog {
         });
         getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 440, -1, -1));
 
-        jTextField1.setBorder(null);
-        jTextField1.setOpaque(false);
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 190, 30));
+        txtPara.setBorder(null);
+        txtPara.setOpaque(false);
+        getContentPane().add(txtPara, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 190, 30));
 
-        jTextField2.setBorder(null);
-        jTextField2.setOpaque(false);
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 190, 30));
+        txtDe.setBorder(null);
+        txtDe.setOpaque(false);
+        getContentPane().add(txtDe, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 190, 30));
 
         jTextArea1.setColumns(20);
         jTextArea1.setLineWrap(true);
@@ -220,7 +222,7 @@ public class Email extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtDe;
+    private javax.swing.JTextField txtPara;
     // End of variables declaration//GEN-END:variables
 }

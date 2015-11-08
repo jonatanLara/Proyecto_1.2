@@ -6,6 +6,7 @@
 package irepots;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JOptionPane;
@@ -14,6 +15,7 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.util.JRLoader;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -75,4 +77,25 @@ public class Reporte {
             JOptionPane.showMessageDialog(null, e);
         }
     }
+    public void generarReporte(String id,String nombre, String prog, String estatus,String fecha, Collection listMateria){
+        JasperReport reporte;
+        JasperPrint reporte_view;
+        try {
+            URL in = this.getClass().getResource("reporteTab.jasper");
+            reporte = (JasperReport) JRLoader.loadObject(in);
+            Map parametros = new HashMap();
+            parametros.put("id", id);
+            parametros.put("nombre", nombre);
+            parametros.put("prog", prog);
+            parametros.put("estatus", estatus);
+            parametros.put("fecha", fecha);
+            reporte_view = JasperFillManager.fillReport(reporte, parametros, new JRBeanCollectionDataSource(listMateria));
+            JasperViewer view = new JasperViewer(reporte_view, false);
+            view.setTitle(nombre);
+            view.setVisible(true);
+         } catch (JRException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+        
 }

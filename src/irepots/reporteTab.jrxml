@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version last-->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="37659e83-0403-4722-af5e-10cd1b0c4e8f">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id" class="java.lang.String"/>
+	<parameter name="nombre" class="java.lang.String"/>
+	<parameter name="prog" class="java.lang.String"/>
+	<parameter name="estatus" class="java.lang.String"/>
+	<parameter name="fecha" class="java.lang.String"/>
+	<field name="subj" class="java.lang.String"/>
+	<field name="crse" class="java.lang.String"/>
+	<field name="periodo" class="java.lang.String"/>
+	<field name="title" class="java.lang.String"/>
+	<field name="grde" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="25" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="1" width="62" height="20" uuid="e88b7477-25a5-48c8-90c4-05802004791c"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[subj]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="2" width="60" height="20" uuid="1fd1f55e-1d90-4092-8881-5f9e10a5a3db"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[crse]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="2" width="60" height="20" uuid="73fe2df5-7359-4168-a9d5-cf3c01998f07"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[periodo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="180" y="2" width="140" height="20" uuid="1a1a1242-94b6-4437-a9f9-bb60c7e4427b"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[title]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="2" width="100" height="20" uuid="abe82034-aa7b-4b07-99fb-308e7316a21f"/>
+				<textElement verticalAlignment="Bottom"/>
+				<text><![CDATA[grde]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="62" height="14" uuid="1d01fdee-6fdb-4eff-93f0-170b873abf48"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{subj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="60" height="14" uuid="b6383a5c-09ee-429d-9dc7-feb6eb455d2f"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{crse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="60" height="14" uuid="1f774542-1eb1-4bdf-8445-18553e311f53"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{periodo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="180" y="0" width="140" height="14" uuid="dac1a66c-461a-47fa-a3ac-6582055595a6"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{title}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="0" width="100" height="14" uuid="dfb28397-48dd-438f-86f7-979ffb5cc341"/>
+				<textElement verticalAlignment="Bottom"/>
+				<textFieldExpression><![CDATA[$F{grde}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

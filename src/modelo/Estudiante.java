@@ -3,13 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package modelo;
+package modelo; 
 
 /**
  *
  * @author Jonatan Lara
  */
+
 public class Estudiante {
+
     private String nombre;
     private String id;
     private String prog;
@@ -18,6 +20,14 @@ public class Estudiante {
     public Estudiante() {
     }
 
+    /**
+     *
+     * @author Jonatan Lara
+     * @param nombre
+     * @param id
+     * @param prog
+     * @param estatus
+     */
     public Estudiante(String nombre, String id, String prog, String estatus) {
         this.nombre = nombre;
         this.id = id;
@@ -80,5 +90,5 @@ public class Estudiante {
     public void setEstatus(String estatus) {
         this.estatus = estatus;
     }
-    
+
 }

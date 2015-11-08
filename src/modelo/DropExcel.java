@@ -19,6 +19,7 @@ import java.awt.dnd.DropTargetListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -46,7 +47,7 @@ public class DropExcel  implements DropTargetListener{
     private Repetidor1 repetidor1 = new Repetidor1();
     private Calificaciones calificaciones = new Calificaciones();
     //-----------------------------------------------
-    
+    List ListaDeDatos = new ArrayList();
      public DropExcel(JTable table) {
         this.jtable = table;
         dt = new DropTarget(jtable, this);
@@ -94,8 +95,7 @@ public class DropExcel  implements DropTargetListener{
                             if (file.getName().endsWith("xls")) {
                                 //lee e importa los datos//
                                 readXlS(file);
-                                ViewPrincipal principal = new ViewPrincipal();
-                                principal.readLine(true);
+                               
                             } else {
                                 JOptionPane.showMessageDialog(null, "no es un archivo compaible");
                             }
@@ -202,8 +202,10 @@ public class DropExcel  implements DropTargetListener{
         for (int i = 0; i < jtable.getRowCount(); i++) {
             subj.add(tableModel.getValueAt(i, 7).toString());
             crse.add(tableModel.getValueAt(i, 8).toString());
+            periodo.add(tableModel.getValueAt(i, 9).toString());
             title.add(tableModel.getValueAt(i, 10).toString());
             grde.add(tableModel.getValueAt(i, 22).toString());
+            
         }
         
         Subj();
@@ -217,33 +219,50 @@ public class DropExcel  implements DropTargetListener{
            if (aux.equals("LENG")){
                 subj.remove(i);
                 crse.remove(i);
+                periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
             }
             if (aux.equals("TPEE")) {
                 subj.remove(i);
                 crse.remove(i);
+                periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
             }
             if (aux.equals("TPEG")) {
                 subj.remove(i);
                 crse.remove(i);
+                periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
             }
             if (aux.equals("CIAN")) {
+                //CIAN 1 201060 Curso Inducción Alum. NI 
                 subj.remove(i);
                 crse.remove(i);
+                periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
             }
-            
-        } System.out.println("subj "+"crse "+" titile "+"grde ");
+            if (aux.length()==0) {
+                subj.remove(i);
+                crse.remove(i);
+                periodo.remove(i);
+                title.remove(i);
+                grde.remove(i);
+            }
+        } 
+        
+        System.out.println("subj "+"crse "+"Periodo "+" titile "+"grde ");
         for (int i = 0; i <subj.size(); i++) {
-            System.out.println(subj.get(i)+" "+crse.get(i)+" "+title.get(i)+" "+grde.get(i));
+            System.out.println(subj.get(i)+" "+crse.get(i)+" "+periodo.get(i)+" "+title.get(i)+" "+grde.get(i));
+            Listado listado = new Listado(subj.get(i).toString(),crse.get(i).toString(),periodo.get(i).toString(),title.get(i).toString(),grde.get(i).toString());
+            ListaDeDatos.add(listado);
         }
+        System.out.println("tamaño"+subj.size());
     }
+    Periodo pt= new  Periodo();
     public void Crse(){
         for (int i = 0; i < crse.size(); i++) {
             String aux = (String) crse.get(i);
@@ -251,12 +270,29 @@ public class DropExcel  implements DropTargetListener{
             //System.out.println(aux);
             String cal = (String)grde.get(i);
             calificaciones.Comprobar(aux, cal);
-            System.out.println(aux+" "+ title.get(i)+" "+cal);
+        //    System.out.println(aux+" "+ title.get(i)+" "+cal);
+            String per = (String) periodo.get(i);
+            pt.setPeriodo(per);
+           
         }
-        impresionDatos();
-        
+     //   impresionDatos();
+        pt.desordenado();
+        pt.ordenar();
+        System.out.println(pt.Diferentes());
     }
     public void impresion(){
+        leerDatos();
+        id();
+        nombre();
+        prog();
+        estatus();
+        Reporte reporte = new Reporte();
+        HoraFecha fecha = new HoraFecha();
+        reporte.generarReporte(estudiante.getId(), estudiante.getNombre(), 
+                estudiante.getProg(), estudiante.getEstatus(),fecha.getFecha()
+                , ListaDeDatos);
+    }
+   /* public void impresion(){
         leerDatos();
         id();
         nombre();
@@ -282,9 +318,10 @@ public class DropExcel  implements DropTargetListener{
                 calificaciones.getSs13(),calificaciones.getSs15(),calificaciones.getSs18(),calificaciones.getSs14(),calificaciones.getRh02(),calificaciones.getVa05(),
                 calificaciones.getSs20(),calificaciones.getSs17(),calificaciones.getCm01(),calificaciones.getCo02(),calificaciones.getDe51(),calificaciones.getAd13(),
                 calificaciones.getSs19(),calificaciones.getSs16(),calificaciones.getIv03(),calificaciones.getRh03(),calificaciones.getAd22(),calificaciones.getIv01());
+                
     }
     public void impresionDatos(){
-       /* System.out.println(repetidor1.getCo02());System.out.println(repetidor1.getMa01());System.out.println(repetidor1.getIn01());System.out.println(repetidor1.getMa06());System.out.println(repetidor1.getVa01());
+        System.out.println(repetidor1.getCo02());System.out.println(repetidor1.getMa01());System.out.println(repetidor1.getIn01());System.out.println(repetidor1.getMa06());System.out.println(repetidor1.getVa01());
         System.out.println(repetidor1.getSs06());System.out.println(repetidor1.getSs01());System.out.println(repetidor1.getSs07());System.out.println(repetidor1.getSs03());System.out.println(repetidor1.getVa04());
         System.out.println(repetidor1.getMa02());System.out.println(repetidor1.getSs05());System.out.println(repetidor1.getSs02());System.out.println(repetidor1.getSs04());System.out.println(repetidor1.getVa03());
         System.out.println(repetidor1.getSs09());System.out.println(repetidor1.getSs21());System.out.println(repetidor1.getSs11());System.out.println(repetidor1.getMa03());System.out.println(repetidor1.getVa02());
@@ -292,8 +329,8 @@ public class DropExcel  implements DropTargetListener{
         System.out.println(repetidor1.getSs13());System.out.println(repetidor1.getSs15());System.out.println(repetidor1.getSs18());System.out.println(repetidor1.getSs14());System.out.println(repetidor1.getRh02());System.out.println(repetidor1.getVa05());
         System.out.println(repetidor1.getSs20());System.out.println(repetidor1.getSs17());System.out.println(repetidor1.getCm01());System.out.println(repetidor1.getCo02());System.out.println(repetidor1.getDe51());System.out.println(repetidor1.getAd13());
         System.out.println(repetidor1.getSs19());System.out.println(repetidor1.getSs16());System.out.println(repetidor1.getIv03());System.out.println(repetidor1.getRh03());System.out.println(repetidor1.getAd22());System.out.println(repetidor1.getIv01());
-       */ 
-        System.out.println(calificaciones.getEe01());
+        
+        
     }
-    
+    */
 }
