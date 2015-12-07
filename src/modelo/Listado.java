@@ -10,6 +10,7 @@ package modelo;
  * @author Jonatan Lara
  */
 public class Listado {
+  /*Variables que estan dentro del arry*/
     private String subj;
     private String crse;
     private String periodo;

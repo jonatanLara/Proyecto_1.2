@@ -26,8 +26,6 @@ import javax.swing.table.DefaultTableModel;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
-import vista.Email;
-import vista.ViewPrincipal;
 
 /**
  *
@@ -41,14 +39,14 @@ public class DropExcel  implements DropTargetListener{
     private ArrayList<Object> periodo = new ArrayList<>();
     private ArrayList<Object> title = new ArrayList<>();
     private ArrayList<Object> grde = new ArrayList<>();
+    
     //----------------------------------------------------------------------------
     private DefaultTableModel tableModel = new DefaultTableModel();
     private Estudiante estudiante = new Estudiante();
-    private Repetidor1 repetidor1 = new Repetidor1();
-    private Calificaciones calificaciones = new Calificaciones();
     //-----------------------------------------------
     List ListaDeDatos = new ArrayList();
-     public DropExcel(JTable table) {
+    
+    public DropExcel(JTable table) {
         this.jtable = table;
         dt = new DropTarget(jtable, this);
        
@@ -145,7 +143,7 @@ public class DropExcel  implements DropTargetListener{
                             //asigna nombre de columna
                             columNames[columna] = hoja.getCell(columna, fila).getContents();//hoja.getCell(columna, fila).getContents();
                             // auxColum[columna] = columNames[columna] = hoja.getCell(columna, fila).getContents();;
-//  strig.add(columNames[columna]);
+                            //  strig.add(columNames[columna]);
                         } else {
                             //lee celda y coloca en el array
                             data[fila][columna] = hoja.getCell(columna, fila).getContents();
@@ -198,6 +196,7 @@ public class DropExcel  implements DropTargetListener{
             estudiante.setEstatus((String) tableModel.getValueAt(0, 4));
         }
     }
+   // sheet hoja = new sheet();
     public void leerDatos(){
         for (int i = 0; i < jtable.getRowCount(); i++) {
             subj.add(tableModel.getValueAt(i, 7).toString());
@@ -205,16 +204,21 @@ public class DropExcel  implements DropTargetListener{
             periodo.add(tableModel.getValueAt(i, 9).toString());
             title.add(tableModel.getValueAt(i, 10).toString());
             grde.add(tableModel.getValueAt(i, 22).toString());
-            
+            /*
+            hoja.setSubj(tableModel.getValueAt(i, 8).toString());
+            hoja.setTitle(tableModel.getValueAt(i, 10).toString());
+            hoja.setPeriodo(tableModel.getValueAt(i, 9).toString());
+            hoja.setGrde(tableModel.getValueAt(i, 22).toString());
+            */
         }
-        
+        //Crse();
         Subj();
-        Crse();
     }
+    
     public void Subj(){
         for (int i = 0; i < subj.size(); i++) {
             String aux = (String) subj.get(i);
-            String auxtitulo = (String) title.get(i);
+           // String auxtitulo = (String) title.get(i);
             
            if (aux.equals("LENG")){
                 subj.remove(i);
@@ -252,9 +256,15 @@ public class DropExcel  implements DropTargetListener{
                 title.remove(i);
                 grde.remove(i);
             }
+         
         } 
+           //Crse();
         
+    }
+    
+    public void impreDato(){
         System.out.println("subj "+"crse "+"Periodo "+" titile "+"grde ");
+        
         for (int i = 0; i <subj.size(); i++) {
             System.out.println(subj.get(i)+" "+crse.get(i)+" "+periodo.get(i)+" "+title.get(i)+" "+grde.get(i));
             Listado listado = new Listado(subj.get(i).toString(),crse.get(i).toString(),periodo.get(i).toString(),title.get(i).toString(),grde.get(i).toString());
@@ -262,75 +272,57 @@ public class DropExcel  implements DropTargetListener{
         }
         System.out.println("tamaño"+subj.size());
     }
-    Periodo pt= new  Periodo();
+    Periodo pt = new  Periodo();
+    Repetidor rep=  new Repetidor();
+    sheet hoja = new sheet();
     public void Crse(){
         for (int i = 0; i < crse.size(); i++) {
             String aux = (String) crse.get(i);
-            repetidor1.Comprobar(aux);
-            //System.out.println(aux);
-            String cal = (String)grde.get(i);
-            calificaciones.Comprobar(aux, cal);
-        //    System.out.println(aux+" "+ title.get(i)+" "+cal);
+            rep.setIngresar(aux);
+            hoja.setCrse(aux);
+            hoja.setSubj((String)subj.get(i));
+            hoja.setPeriodo((String)periodo.get(i));
+            hoja.setTitle((String)title.get(i));
+            hoja.setGrde((String)grde.get(i));
             String per = (String) periodo.get(i);
             pt.setPeriodo(per);
-           
+            
+            for (int j = i+1; j < crse.size(); j++) {
+                String aux2 =(String)crse.get(j);
+                
+                if (aux.equals(aux2)) {
+                    subj.remove(i);
+                    crse.remove(i);
+                    periodo.remove(i);
+                    title.remove(i);
+                    grde.remove(i);
+                }else{
+                    
+                }
+            }
+            
         }
-     //   impresionDatos();
+      //impresionDatos();
         pt.desordenado();
         pt.ordenar();
-        System.out.println(pt.Diferentes());
+        //System.out.println(pt.getPeriodos());
+        rep.comprobar();
+        rep.getArray();
+        
+        hoja.comprobarRepeticiones();
+        hoja.getArray();
+        
+        impreDato();
     }
     public void impresion(){
         leerDatos();
-        id();
+        Crse();
+        /*id();
         nombre();
         prog();
         estatus();
-        Reporte reporte = new Reporte();
-        HoraFecha fecha = new HoraFecha();
-        reporte.generarReporte(estudiante.getId(), estudiante.getNombre(), 
-                estudiante.getProg(), estudiante.getEstatus(),fecha.getFecha()
-                , ListaDeDatos);
+        */
+        hoja.impreso();
     }
-   /* public void impresion(){
-        leerDatos();
-        id();
-        nombre();
-        prog();
-        estatus();
-        Reporte reporte = new Reporte();
-        HoraFecha fecha = new HoraFecha();
-        reporte.generarReporte(estudiante.getId(), estudiante.getNombre(),
-                estudiante.getProg(), estudiante.getEstatus(),fecha.getFecha(),
-                repetidor1.convertidor(repetidor1.getC001()),repetidor1.convertidor(repetidor1.getMa01()),repetidor1.convertidor(repetidor1.getIn01()),repetidor1.convertidor(repetidor1.getMa06()),repetidor1.convertidor(repetidor1.getVa01()),
-                repetidor1.convertidor(repetidor1.getSs06()),repetidor1.convertidor(repetidor1.getSs01()),repetidor1.convertidor(repetidor1.getSs07()),repetidor1.convertidor(repetidor1.getSs03()),repetidor1.convertidor(repetidor1.getVa04()),
-                repetidor1.convertidor(repetidor1.getMa02()),repetidor1.convertidor(repetidor1.getSs05()),repetidor1.convertidor(repetidor1.getSs02()),repetidor1.convertidor(repetidor1.getSs04()),repetidor1.convertidor(repetidor1.getVa03()),
-                repetidor1.convertidor(repetidor1.getSs09()),repetidor1.convertidor(repetidor1.getSs21()),repetidor1.convertidor(repetidor1.getSs11()),repetidor1.convertidor(repetidor1.getMa03()),repetidor1.convertidor(repetidor1.getVa02()),
-                repetidor1.convertidor(repetidor1.getSs08()),repetidor1.convertidor(repetidor1.getSs12()),repetidor1.convertidor(repetidor1.getSs10()),repetidor1.convertidor(repetidor1.getAd23()),repetidor1.convertidor(repetidor1.getIv02()),repetidor1.convertidor(repetidor1.getEe01()),
-                repetidor1.convertidor(repetidor1.getSs13()),repetidor1.convertidor(repetidor1.getSs15()),repetidor1.convertidor(repetidor1.getSs18()),repetidor1.convertidor(repetidor1.getSs14()),repetidor1.convertidor(repetidor1.getRh02()),repetidor1.convertidor(repetidor1.getVa05()),
-                repetidor1.convertidor(repetidor1.getSs20()),repetidor1.convertidor(repetidor1.getSs17()),repetidor1.convertidor(repetidor1.getCm01()),repetidor1.convertidor(repetidor1.getCo02()),repetidor1.convertidor(repetidor1.getDe51()),repetidor1.convertidor(repetidor1.getAd13()),
-                repetidor1.convertidor(repetidor1.getSs19()),repetidor1.convertidor(repetidor1.getSs16()),repetidor1.convertidor(repetidor1.getIv03()),repetidor1.convertidor(repetidor1.getRh03()),repetidor1.convertidor(repetidor1.getAd22()),repetidor1.convertidor(repetidor1.getIv01()),
-                calificaciones.getC001(),calificaciones.getMa01(),calificaciones.getIn01(),calificaciones.getMa06(),calificaciones.getVa01(),
-                calificaciones.getSs06(),calificaciones.getSs01(),calificaciones.getSs07(),calificaciones.getSs03(),calificaciones.getVa04(),
-                calificaciones.getMa02(),calificaciones.getSs05(),calificaciones.getSs02(),calificaciones.getSs04(),calificaciones.getVa03(),
-                calificaciones.getSs09(),calificaciones.getSs21(),calificaciones.getSs11(),calificaciones.getMa03(),calificaciones.getVa02(),
-                calificaciones.getSs08(),calificaciones.getSs12(),calificaciones.getSs10(),calificaciones.getAd23(),calificaciones.getIv02(),calificaciones.getEe01(),
-                calificaciones.getSs13(),calificaciones.getSs15(),calificaciones.getSs18(),calificaciones.getSs14(),calificaciones.getRh02(),calificaciones.getVa05(),
-                calificaciones.getSs20(),calificaciones.getSs17(),calificaciones.getCm01(),calificaciones.getCo02(),calificaciones.getDe51(),calificaciones.getAd13(),
-                calificaciones.getSs19(),calificaciones.getSs16(),calificaciones.getIv03(),calificaciones.getRh03(),calificaciones.getAd22(),calificaciones.getIv01());
-                
-    }
-    public void impresionDatos(){
-        System.out.println(repetidor1.getCo02());System.out.println(repetidor1.getMa01());System.out.println(repetidor1.getIn01());System.out.println(repetidor1.getMa06());System.out.println(repetidor1.getVa01());
-        System.out.println(repetidor1.getSs06());System.out.println(repetidor1.getSs01());System.out.println(repetidor1.getSs07());System.out.println(repetidor1.getSs03());System.out.println(repetidor1.getVa04());
-        System.out.println(repetidor1.getMa02());System.out.println(repetidor1.getSs05());System.out.println(repetidor1.getSs02());System.out.println(repetidor1.getSs04());System.out.println(repetidor1.getVa03());
-        System.out.println(repetidor1.getSs09());System.out.println(repetidor1.getSs21());System.out.println(repetidor1.getSs11());System.out.println(repetidor1.getMa03());System.out.println(repetidor1.getVa02());
-        System.out.println(repetidor1.getSs08());System.out.println(repetidor1.getSs12());System.out.println(repetidor1.getSs10());System.out.println(repetidor1.getAd23());System.out.println(repetidor1.getIv02());System.out.println(repetidor1.getEe01());
-        System.out.println(repetidor1.getSs13());System.out.println(repetidor1.getSs15());System.out.println(repetidor1.getSs18());System.out.println(repetidor1.getSs14());System.out.println(repetidor1.getRh02());System.out.println(repetidor1.getVa05());
-        System.out.println(repetidor1.getSs20());System.out.println(repetidor1.getSs17());System.out.println(repetidor1.getCm01());System.out.println(repetidor1.getCo02());System.out.println(repetidor1.getDe51());System.out.println(repetidor1.getAd13());
-        System.out.println(repetidor1.getSs19());System.out.println(repetidor1.getSs16());System.out.println(repetidor1.getIv03());System.out.println(repetidor1.getRh03());System.out.println(repetidor1.getAd22());System.out.println(repetidor1.getIv01());
-        
-        
-    }
-    */
+   
 }

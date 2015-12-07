@@ -3,19 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package vista;
+package Email;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 /**
  *
  * @author Jonatan Lara
  */
+
 public class Email extends javax.swing.JDialog {
 
     private String Archivo;
-    
+    Correo c = new Correo();
     public Email(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -24,7 +26,22 @@ public class Email extends javax.swing.JDialog {
         txtDe.setText(""+"@red.unid.mx");
         txtPara.setText(""+"@red.unid.mx");
     }
+    public void enviar() {
+        c.setContrasenia("guitarra0");
+        c.setUsuarioCorreo("ljonatan4@gmail.com");//base de datos!
+        c.setAsunto("Información");
+        c.setMensaje(Mensaje.getText());
+        c.setDestino(txtPara.getText().trim());
+        c.setNombreArchivo("logo.png");
+        c.setRutaArchivo("logo.png");
+        Controlador co = new Controlador();
+        if (co.enviarCorreo(c)) {
+            JOptionPane.showMessageDialog(null, "exito");
+        } else {
+            JOptionPane.showMessageDialog(null, "fallido");
+        }
 
+    }
     public String getArchivo() {
         getToolkit().beep();
         return Archivo;
@@ -56,7 +73,7 @@ public class Email extends javax.swing.JDialog {
         txtPara = new javax.swing.JTextField();
         txtDe = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        Mensaje = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -95,10 +112,10 @@ public class Email extends javax.swing.JDialog {
         txtDe.setOpaque(false);
         getContentPane().add(txtDe, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 190, 30));
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setLineWrap(true);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        Mensaje.setColumns(20);
+        Mensaje.setLineWrap(true);
+        Mensaje.setRows(5);
+        jScrollPane1.setViewportView(Mensaje);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 360, 198));
 
@@ -114,7 +131,7 @@ public class Email extends javax.swing.JDialog {
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/barra2.png"))); // NOI18N
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, -1, 40));
 
-        jPanel1.setBackground(new java.awt.Color(101, 195, 65));
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
 
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/envelope74 (1).png"))); // NOI18N
 
@@ -208,6 +225,7 @@ public class Email extends javax.swing.JDialog {
         return result;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextArea Mensaje;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -221,7 +239,6 @@ public class Email extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtDe;
     private javax.swing.JTextField txtPara;
     // End of variables declaration//GEN-END:variables

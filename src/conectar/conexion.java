@@ -9,7 +9,6 @@ import Notify.Notify;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JLabel;
 
@@ -17,70 +16,98 @@ import javax.swing.JLabel;
  *
  * @author Jonatan Lara
  */
+
 public class conexion {
 
     public String bd = "Academico_LISI";
     public String login = "root";
     public String password = "";
     public String url = "jdbc:mysql://localhost/" + bd;
-    Connection conn;
+    Connection conn =null;
+    Statement sentencia =null;
     private Notify notify = new Notify();
-    public Statement conectar() {
-        conn = null;
-        Statement st = null;
-        
+    boolean isEmpyConection;
+    public void conectar(){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, login, password);
-            if (conn != null) {
-                notify.notifyConection("Conexion ", "Conexion exitosa",true);
-                st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                
+            String controlador = "com.mysql.jdbc.Driver";
+            Class.forName(controlador).newInstance();
+            
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+            System.out.println("Error de controlador posiblemente no tenga esta libreria");
         }
-        } catch (SQLException ex) {
+        try {
+            String DSN = url;
+            String user = login;
+            conn =DriverManager.getConnection(DSN,user,password);
+        } catch (Exception e) {
+            System.out.println("No esta activa la conexion");
+        }
+        try {
+            sentencia = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+            ResultSet.CONCUR_READ_ONLY);
+            //notify.notifyConection("Conexion ", "Conexion exitosa",true);
+        } catch (Exception e) {
             String er="se produjo un problema al conectar con la base de datos";
             notify.notifyConection("Conexion", er,false);
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
-            
         }
-        return st;
     }
-    public Statement conectar(JLabel lb) {
-        conn = null;
-        Statement st = null;
-        
+    public void conectar(JLabel lb){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            conn = DriverManager.getConnection(url, login, password);
-            if (conn != null) {
-                notify.notifyConection("Conexion ", "Conexion exitosa",true);
-                st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-                lb.setEnabled(true);
-                lb.setToolTipText("Conexion Activada");
-                isEmpyConection = true;
+            String controlador = "com.mysql.jdbc.Driver";
+            Class.forName(controlador).newInstance();
+            
+        } catch (Exception e) {
+            System.out.println("Error de controlador posiblemente no tenga esta libreria");
         }
-        } catch (SQLException ex) {
+        try {
+            String DSN = url;
+            String user = "root";
+            conn =DriverManager.getConnection(DSN,user,password);
+        } catch (Exception e) {
+            System.out.println("No esta activa la conexion, o no a iniciado su servidor");
+        }
+        try {
+            sentencia = (Statement) conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            notify.notifyConection("Conexion ", "Conexion exitosa",true);
+            lb.setEnabled(true);
+            lb.setToolTipText("Conexion Activada");
+            isEmpyConection = true;
+        } catch (Exception e) {
             String er="se produjo un problema al conectar con la base de datos";
             notify.notifyConection("Conexion", er,false);
             lb.setEnabled(false);
             isEmpyConection= false;
             lb.setToolTipText("No conectado");
-        } catch (ClassNotFoundException ex) {
-            System.out.println(ex);
-            lb.setEnabled(false);
-            isEmpyConection = false;
         }
-        return st;
     }
     
-    public Connection getConectar(){
-        return conn;
-    
-    }
-    
-    boolean isEmpyConection;
+    /***
+     * 
+     * @return la conexion en falso o verdadero
+     */
     public boolean isEmpyConexion(){
            return isEmpyConection;
+    }
+    /***
+     * 
+     * me desconecta de la base de datos
+     */
+    public void Desconectar(){
+        conn = null;
+    }
+    /***
+     * 
+     * @return el Statement
+     */
+    public Statement getStatement(){
+        return sentencia;
+    }
+    /***
+     * 
+     * @return la Connection
+     */
+    public Connection getConnection(){
+        return  conn;
     }
 }

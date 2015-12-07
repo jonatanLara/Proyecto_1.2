@@ -13,6 +13,7 @@ import java.util.Collections;
  * @author Jonatan Lara
  */
 public class Periodo {
+    
     private int periodo;
     private ArrayList<Integer> array= new ArrayList();
     public Periodo(){
@@ -48,11 +49,11 @@ public class Periodo {
      *  Me perimite contar cuantos periodos tiene actulmente
      *  @return el numero de periodos diferentes en total
      */
-    public int Diferentes(){
+    public int getPeriodos(){
         int n=1;
         int x = array.get(0);
         for (int i = 0; i < array.size(); i++) {
-            int y =array.get(i);
+            int y = array.get(i);
             if (x==y) {
                 System.out.println("yes!!"+y);
               }else{

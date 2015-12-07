@@ -5,16 +5,33 @@
  */
 package vista;
 
+import Email.Email;
+import Login.Login;
 import background.background;
 import conectar.conexion;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import modelo.Perfil;
+import perfil.Profile;
 
 /**
  *
@@ -25,8 +42,12 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private final background fondo = new background("Unid_conecta.png");
     private final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     private JLabel barra_fondo = new JLabel(new ImageIcon(getClass().getResource("/icons/barra_fondo.png")));
-    TablaExcel tabla= new TablaExcel();;
+    TablaExcel tabla= new TablaExcel();
     conexion conectar = new conexion();
+    JPopupMenu menu;
+    JMenuItem m1,m2,m3,m4,m5;
+    Perfil perfil;
+    public String link="http://www.google.com.mx";
     public ViewPrincipal() {
         setContentPane(fondo);
         initComponents();
@@ -40,7 +61,142 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btBuscar.setEnabled(false);
         barra_fondo.setBounds(0, 0,1366, 50);
         jPanel1.add("Center", barra_fondo);
+        sesion();
+        Colsulata();
+        System.out.println("El id de arranque es "+getID());
+    }
+    public ViewPrincipal(String id){
+        setContentPane(fondo);
+        initComponents();
+        this.idusuario = id;
+        Panel.setBackground(new Color(0, 0, 0, 5));
+        sizeWindows();
+        HiloCargarDB hilo = new HiloCargarDB();
+        hilo.start();
+        iconoAplication();
+        lbConexion.setEnabled(false);
+        btGuardar.setEnabled(false);
+        btBuscar.setEnabled(false);
+        barra_fondo.setBounds(0, 0,1366, 50);
+        jPanel1.add("Center", barra_fondo);
+        sesion();
+        System.out.println("El id de arranque es "+getID());
+    }
+    public void sesion(){
+        Colsulata();
+         // Create a JPopupMenu
+        menu=new JPopupMenu();
         
+        // Create JMenuItems
+            m1=new JMenuItem(perfil.getNombre());
+            m1.setBackground(new Color(0,102,102));
+            m1.setForeground(Color.WHITE);
+            m2=new JMenuItem(perfil.getLicenciatura());
+            m2.setBackground(new Color(0,102,102));
+            m2.setForeground(Color.WHITE);
+            m3=new JMenuItem("Configurar");
+            m3.setBackground(new Color(0,102,102));
+            m3.setForeground(Color.WHITE);
+            m3.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            m4=new JMenuItem("Acerca de");
+            m4.setBackground(new Color(0,102,102));
+            m4.setForeground(Color.WHITE);
+            m4.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            m5=new JMenuItem("Desconectar");
+            m5.setBackground(new Color(0,102,102));
+            m5.setForeground(Color.WHITE);
+            m5.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        // Add JMenuItems to JPopupMenu
+        menu.add(m1);
+        menu.add(m2);
+        menu.add(m3);
+        menu.add(m4);
+        menu.add(m5);
+        jButton1.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                 showPopup(e);
+            }
+        });
+        m3.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               Profile profile = new Profile(null, true,getID());
+               profile.setVisible(true);
+            }
+        });
+        m4.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               JOptionPane.showMessageDialog(null, "Desarrollado por @by Jonatán Lara");
+            }
+        });
+        m5.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               Login login = new Login();
+               login.setVisible(true);
+               conectar.Desconectar();
+               dispose();
+            }
+        });
+        
+    }
+    private void Colsulata(){
+        //String slq ="SELECT nombre, licenciatura FROM usuarios INNER JOIN licenciatura ON usuarios.licenciaturas_id = licenciatura.licenciatura_id WHERE usuario_id =";
+        conectar.conectar();
+        Statement st = conectar.getStatement();
+        perfil = new Perfil();
+        String txt;
+        try {
+            ResultSet r = st.executeQuery("SELECT nombre, licenciatura FROM usuarios INNER JOIN licenciatura ON usuarios.licenciaturas_id = licenciatura.licenciatura_id WHERE usuario_id ="+getID());
+             if (r != null) {
+                r.next();
+                System.out.println(r.getString("nombre"));
+                perfil.setNombre(r.getString("nombre"));
+                perfil.setLicenciatura(r.getString("licenciatura"));
+            }
+            else{
+                System.out.println("No se encontro");
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }
+    private void showPopup(ActionEvent ae)
+    {
+        // Get the event source
+        Component b=(Component)ae.getSource();
+        
+        // Get the location of the point 'on the screen'
+        Point p=b.getLocationOnScreen();
+        
+        // Show the JPopupMenu via program
+        
+        // Parameter desc
+        // ----------------
+        // this - represents current frame
+        // 0,0 is the co ordinate where the popup
+        // is shown
+        menu.show(this,0,0);
+        
+        // Now set the location of the JPopupMenu
+        // This location is relative to the screen
+        menu.setLocation(p.x,p.y+b.getHeight());
+    }
+    String idusuario;
+    JLabel idlabel;
+    public void idUsiario(String id){
+       idlabel = new JLabel(id);
+       this.idusuario = id;
+    }
+    public String getID(){
+        return idusuario;
     }
     public void sizeWindows(){
         System.out.println("tu resolucion es " + screenSize.width + "x" + screenSize.height);
@@ -78,13 +234,22 @@ public class ViewPrincipal extends javax.swing.JFrame {
                  Logger.getLogger(ViewPrincipal.class.getName()).log(Level.SEVERE, null, ex);
             }
             conetarDB();
+              
         }
     }
     public void iconoAplication(){
         try {
             setIconImage(new ImageIcon(getClass().getResource("/icons/IconUnid.png")).getImage());
+            
         } catch (Exception e) {
         } 
+    }
+    /* para abrir pagina web*/
+    public void abrirLink(){
+         try {
+             Desktop.getDesktop().browse(new URI(link));
+         } catch (Exception e) {
+         }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -105,6 +270,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag = new javax.swing.JButton();
         btBuscar = new javax.swing.JButton();
         lbConexion = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -211,6 +377,11 @@ public class ViewPrincipal extends javax.swing.JFrame {
         btPag.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btPag.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/international38 (1).png"))); // NOI18N
         btPag.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btPag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btPagActionPerformed(evt);
+            }
+        });
 
         btBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/looking (1).png"))); // NOI18N
         btBuscar.setToolTipText("Buscar");
@@ -230,33 +401,45 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
         lbConexion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/bus_verde.png"))); // NOI18N
 
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/silhouette78.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(20, 20, 20)
                 .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(btRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
+                .addGap(6, 6, 6)
                 .addComponent(btImprimir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(7, 7, 7)
                 .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(9, 9, 9)
                 .addComponent(btEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addComponent(btPag, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(9, 9, 9)
                 .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lbConexion)
-                .addContainerGap(312, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 249, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btNuevo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,9 +447,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
                     .addComponent(btGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btPag, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbConexion, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1))
+                .addContainerGap())
         );
 
         jMenuBar1.add(jMenu1);
@@ -327,6 +511,14 @@ public class ViewPrincipal extends javax.swing.JFrame {
         Email email  = new  Email(this, true);
         email.setVisible(true);
     }//GEN-LAST:event_btEmailActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btPagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btPagActionPerformed
+        abrirLink();
+    }//GEN-LAST:event_btPagActionPerformed
     public void search(){
         Search search = new Search();
         int W = Panel.getWidth();
@@ -340,6 +532,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -369,7 +562,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             public void run() {
                 /*JFrame.setDefaultLookAndFeelDecorated(true);
                 SubstanceLookAndFeel.setSkin("org.jvnet.substance.skin.BusinessBlackSteelSkin");*/
-                new ViewPrincipal().setVisible(true);
+                //new ViewPrincipal().setVisible(true);
             }
         });
     }
@@ -383,6 +576,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton btNuevo;
     private javax.swing.JButton btPag;
     private javax.swing.JButton btRefresh;
+    private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
