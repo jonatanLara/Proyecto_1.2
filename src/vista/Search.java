@@ -5,8 +5,12 @@
  */
 package vista;
 
+import conectar.conexion;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -20,7 +24,8 @@ public class Search extends javax.swing.JPanel {
     public Search() {
         initComponents();
         model();
-        verficicacionID(jTextField2);
+        verficicacionID(txtbusqueda);
+        Consulta();
     }
     public void model(){
         String columnas[]={"Matricula","Nombre","Programa","Estatus"};
@@ -41,6 +46,54 @@ public class Search extends javax.swing.JPanel {
              }
         });
     }
+    private void Consulta() {
+        conexion con =  new conexion();
+        con.conectar();
+        String info="";
+        Object Datos[];
+        try {
+            
+            ResultSet r = con.getStatement().executeQuery("select * from alumnos");
+            r.beforeFirst();
+            while (r.next()) {                
+                
+                Datos = new Object[4];
+                Datos[0]=r.getString("matricula");
+                Datos[1]=r.getString("nombre");
+                Datos[2]=r.getString("programa");
+                Datos[3]=r.getString("estatus");
+                modelo.addRow(Datos);
+            }
+            ///JOptionPane.showMessageDialog(null, info);
+           
+        } catch (Exception e) {
+             System.out.println(""+e);
+        }
+    }
+    public void busqueda(){
+        String sql="Select * from alumnos WHERE matricula LIKE ?";
+        Object Datos[];
+        conexion con =  new conexion();
+        Connection reg = con.getConnection();
+        try {
+        
+           PreparedStatement pst = reg.prepareStatement(sql);
+           pst.setString(1, txtbusqueda.getText() +"%");
+           ResultSet r = pst.executeQuery();
+            r.beforeFirst();
+            
+            while (r.next()) {                
+                
+                Datos = new Object[4];
+                Datos[0]=r.getString("matricula");
+                Datos[1]=r.getString("nombre");
+                Datos[2]=r.getString("programa");
+                Datos[3]=r.getString("estatus");
+                modelo.addRow(Datos);
+            }
+        } catch (Exception e) {
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -50,7 +103,7 @@ public class Search extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField2 = new javax.swing.JTextField();
+        txtbusqueda = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabla = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
@@ -59,9 +112,14 @@ public class Search extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(204, 204, 255));
 
-        jTextField2.setToolTipText("Ingresa el ID");
-        jTextField2.setBorder(null);
-        jTextField2.setOpaque(false);
+        txtbusqueda.setToolTipText("Ingresa el ID");
+        txtbusqueda.setBorder(null);
+        txtbusqueda.setOpaque(false);
+        txtbusqueda.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtbusquedaKeyTyped(evt);
+            }
+        });
 
         tabla.setBackground(new java.awt.Color(204, 204, 255));
         tabla.setModel(new javax.swing.table.DefaultTableModel(
@@ -99,7 +157,7 @@ public class Search extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtbusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3))
                         .addGap(130, 130, 130)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -120,7 +178,7 @@ public class Search extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(txtbusqueda, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton1))
                         .addGap(18, 18, 18)
@@ -129,13 +187,17 @@ public class Search extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtbusquedaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtbusquedaKeyTyped
+       busqueda();
+    }//GEN-LAST:event_txtbusquedaKeyTyped
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTable tabla;
+    private javax.swing.JTextField txtbusqueda;
     // End of variables declaration//GEN-END:variables
 }

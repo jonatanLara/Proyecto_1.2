@@ -9,8 +9,10 @@ import Notify.Notify;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,10 +25,20 @@ public class conexion {
     public String login = "root";
     public String password = "";
     public String url = "jdbc:mysql://localhost/" + bd;
-    Connection conn =null;
-    Statement sentencia =null;
+    Connection conn ;
+    Statement sentencia = null;
     private Notify notify = new Notify();
     boolean isEmpyConection;
+    public Connection conctarDB(){
+         conn = null;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            conn = DriverManager.getConnection(url,login,password);
+        } catch (ClassNotFoundException | SQLException e) {
+            JOptionPane.showMessageDialog(null, "problema al conetae"+e);
+        }
+        return conn;
+    }
     public void conectar(){
         try {
             String controlador = "com.mysql.jdbc.Driver";

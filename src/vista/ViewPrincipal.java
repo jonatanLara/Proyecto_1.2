@@ -21,7 +21,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URI;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +29,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
+import modelo.DropExcel;
 import modelo.Perfil;
 import perfil.Profile;
 
@@ -47,7 +47,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     JPopupMenu menu;
     JMenuItem m1,m2,m3,m4,m5;
     Perfil perfil;
-    public String link="http://www.google.com.mx";
+    public String link = "http://www.google.com.mx";
     public ViewPrincipal() {
         setContentPane(fondo);
         initComponents();
@@ -63,7 +63,8 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jPanel1.add("Center", barra_fondo);
         sesion();
         Colsulata();
-        System.out.println("El id de arranque es "+getID());
+        System.out.println("El id de arranque es "+ getID());
+        
     }
     public ViewPrincipal(String id){
         setContentPane(fondo);
@@ -81,6 +82,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jPanel1.add("Center", barra_fondo);
         sesion();
         System.out.println("El id de arranque es "+getID());
+        DropExcel drop = new DropExcel(getID());
     }
     public void sesion(){
         Colsulata();
@@ -91,16 +93,20 @@ public class ViewPrincipal extends javax.swing.JFrame {
             m1=new JMenuItem(perfil.getNombre());
             m1.setBackground(new Color(0,102,102));
             m1.setForeground(Color.WHITE);
+            m1.setIcon(new ImageIcon(getClass().getResource("/icons/silhouette16.png")));
             m2=new JMenuItem(perfil.getLicenciatura());
             m2.setBackground(new Color(0,102,102));
             m2.setForeground(Color.WHITE);
+            m2.setIcon(new ImageIcon(getClass().getResource("/icons/portfolio25.png")));
             m3=new JMenuItem("Configurar");
             m3.setBackground(new Color(0,102,102));
             m3.setForeground(Color.WHITE);
+            m3.setIcon(new ImageIcon(getClass().getResource("/icons/nut4.png")));
             m3.setCursor(new Cursor(Cursor.HAND_CURSOR));
             m4=new JMenuItem("Acerca de");
             m4.setBackground(new Color(0,102,102));
             m4.setForeground(Color.WHITE);
+            m4.setIcon(new ImageIcon(getClass().getResource("/icons/information.png")));
             m4.setCursor(new Cursor(Cursor.HAND_CURSOR));
             m5=new JMenuItem("Desconectar");
             m5.setBackground(new Color(0,102,102));
@@ -131,7 +137,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-               JOptionPane.showMessageDialog(null, "Desarrollado por @by Jonatán Lara");
+               JOptionPane.showMessageDialog(null, "Version de java 8.1");
             }
         });
         m5.addActionListener(new ActionListener() {
@@ -170,23 +176,10 @@ public class ViewPrincipal extends javax.swing.JFrame {
     }
     private void showPopup(ActionEvent ae)
     {
-        // Get the event source
+        
         Component b=(Component)ae.getSource();
-        
-        // Get the location of the point 'on the screen'
         Point p=b.getLocationOnScreen();
-        
-        // Show the JPopupMenu via program
-        
-        // Parameter desc
-        // ----------------
-        // this - represents current frame
-        // 0,0 is the co ordinate where the popup
-        // is shown
         menu.show(this,0,0);
-        
-        // Now set the location of the JPopupMenu
-        // This location is relative to the screen
         menu.setLocation(p.x,p.y+b.getHeight());
     }
     String idusuario;
@@ -487,6 +480,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private void btNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btNuevoActionPerformed
         Panel.removeAll();
         InicioPanel();
+        
     }//GEN-LAST:event_btNuevoActionPerformed
 
     private void btRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRefreshActionPerformed

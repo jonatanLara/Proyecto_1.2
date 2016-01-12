@@ -246,7 +246,9 @@ public class Profile extends javax.swing.JDialog {
                 .addContainerGap(13, Short.MAX_VALUE))
         );
 
-        btAceptar.setBackground(new java.awt.Color(204, 204, 204));
+        btAceptar.setBackground(new java.awt.Color(0, 102, 102));
+        btAceptar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        btAceptar.setForeground(new java.awt.Color(255, 255, 255));
         btAceptar.setText("Aceptar");
         btAceptar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

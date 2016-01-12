@@ -5,6 +5,7 @@
  */
 package vista;
 
+import javax.swing.JTable;
 import modelo.DropExcel;
 
 /**
@@ -16,7 +17,8 @@ public class TablaExcel extends javax.swing.JPanel {
     DropExcel drop;
     public TablaExcel() {
         initComponents();
-         drop = new DropExcel(TablaDatos);
+        drop = new DropExcel(TablaDatos);
+        tablaNueva();
          
     }
     
@@ -73,6 +75,25 @@ public class TablaExcel extends javax.swing.JPanel {
     }
     public void impresion(){
         drop.impresion();
+    }
+    public void tablaNueva(){
+        jScrollPane1 = new javax.swing.JScrollPane();
+        TablaDatos = new javax.swing.JTable();
+
+        TablaDatos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(TablaDatos);
+        
+        
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable TablaDatos;

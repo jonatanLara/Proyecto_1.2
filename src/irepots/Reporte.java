@@ -5,6 +5,8 @@
  */
 package irepots;
 
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -77,7 +79,13 @@ public class Reporte {
             JOptionPane.showMessageDialog(null, e);
         }
     }
-    public void generarReporte(String id,String nombre, String prog, String estatus,String fecha, Collection listMateria){
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("icons/IconUnid_60.png"));
+        return retValue;
+    }
+
+    public void generarReporte(String id,String nombre, String prog, String estatus,String fecha, Collection listMateria, 
+            String creditos, String MateriasRepetidas,String totalDeMaterias){
         JasperReport reporte;
         JasperPrint reporte_view;
         try {
@@ -89,10 +97,14 @@ public class Reporte {
             parametros.put("prog", prog);
             parametros.put("estatus", estatus);
             parametros.put("fecha", fecha);
+            parametros.put("creditos", creditos);
+            parametros.put("materiasRepetidas", MateriasRepetidas);
+            parametros.put("totalDeMaterias", totalDeMaterias);
             reporte_view = JasperFillManager.fillReport(reporte, parametros, new JRBeanCollectionDataSource(listMateria));
             JasperViewer view = new JasperViewer(reporte_view, false);
             view.setTitle(nombre);
             view.setVisible(true);
+            view.setIconImage(getIconImage());
          } catch (JRException e) {
             JOptionPane.showMessageDialog(null, e);
         }

@@ -6,8 +6,9 @@
 package modelo;
 
 
-import fecha.HoraFecha;
-import irepots.Reporte;
+import Notify.Notify;
+import conectar.Insertar;
+import conectar.InsetRegistro;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.dnd.DnDConstants;
@@ -26,12 +27,14 @@ import javax.swing.table.DefaultTableModel;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import vista.ViewPrincipal;
 
 /**
  *
  * @author Jonatan Lara
  */
 public class DropExcel  implements DropTargetListener{
+    private Insertar bdInsert = new Insertar();
     private DropTarget dt;
     private JTable jtable;
     private ArrayList<Object> subj = new ArrayList<>();
@@ -39,21 +42,23 @@ public class DropExcel  implements DropTargetListener{
     private ArrayList<Object> periodo = new ArrayList<>();
     private ArrayList<Object> title = new ArrayList<>();
     private ArrayList<Object> grde = new ArrayList<>();
+    private ArrayList<Object> fecha = new ArrayList<>();
     
     //----------------------------------------------------------------------------
     private DefaultTableModel tableModel = new DefaultTableModel();
     private Estudiante estudiante = new Estudiante();
     //-----------------------------------------------
     List ListaDeDatos = new ArrayList();
-    
+    Notify notificacion = new Notify();
+    String idCarrera;
     public DropExcel(JTable table) {
         this.jtable = table;
         dt = new DropTarget(jtable, this);
        
     }
 
-    public DropExcel() {
-
+    public DropExcel(String id) {
+        this.idCarrera = id;
     }
     
     @Override
@@ -95,7 +100,8 @@ public class DropExcel  implements DropTargetListener{
                                 readXlS(file);
                                
                             } else {
-                                JOptionPane.showMessageDialog(null, "no es un archivo compaible");
+                                //JOptionPane.showMessageDialog(null, "no es un archivo compaible");
+                                notificacion.notificacionAdvertencia("Alerta", "Formato no compatible");
                             }
                         } else {
                             JOptionPane.showMessageDialog(null, "el archivo no existe");
@@ -163,7 +169,8 @@ public class DropExcel  implements DropTargetListener{
             }//HeadlessException | UnsupportedFlavorException | IO
         } catch (IOException e) {
             System.err.println("Error en el try cacth de leer el excel \n" + e.getMessage());
-            JOptionPane.showMessageDialog(null, "forato no compatible \n" + e.getMessage());
+            //JOptionPane.showMessageDialog(null, "forato no compatible \n" + e.getMessage());
+            notificacion.notificacionAdvertencia("Alerta", "Formato no compatible");
         } catch (BiffException e) {
             System.err.println(e.getMessage());
         }
@@ -177,8 +184,9 @@ public class DropExcel  implements DropTargetListener{
         return this.dt;
     }
     public void id(){
+        
         if (tableModel.getColumnName(0).equals("ID")) {
-            estudiante.setId((String) tableModel.getValueAt(0, 0));
+             estudiante.setId((String) tableModel.getValueAt(0, 0));
         }
     }
     public void nombre(){
@@ -204,6 +212,7 @@ public class DropExcel  implements DropTargetListener{
             periodo.add(tableModel.getValueAt(i, 9).toString());
             title.add(tableModel.getValueAt(i, 10).toString());
             grde.add(tableModel.getValueAt(i, 22).toString());
+            fecha.add(tableModel.getValueAt(i, 24).toString());
             /*
             hoja.setSubj(tableModel.getValueAt(i, 8).toString());
             hoja.setTitle(tableModel.getValueAt(i, 10).toString());
@@ -219,13 +228,13 @@ public class DropExcel  implements DropTargetListener{
         for (int i = 0; i < subj.size(); i++) {
             String aux = (String) subj.get(i);
            // String auxtitulo = (String) title.get(i);
-            
            if (aux.equals("LENG")){
                 subj.remove(i);
                 crse.remove(i);
                 periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
+                fecha.remove(i);
             }
             if (aux.equals("TPEE")) {
                 subj.remove(i);
@@ -233,6 +242,7 @@ public class DropExcel  implements DropTargetListener{
                 periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
+                fecha.remove(i);
             }
             if (aux.equals("TPEG")) {
                 subj.remove(i);
@@ -240,6 +250,7 @@ public class DropExcel  implements DropTargetListener{
                 periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
+                fecha.remove(i);
             }
             if (aux.equals("CIAN")) {
                 //CIAN 1 201060 Curso Inducción Alum. NI 
@@ -248,6 +259,7 @@ public class DropExcel  implements DropTargetListener{
                 periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
+                fecha.remove(i);
             }
             if (aux.length()==0) {
                 subj.remove(i);
@@ -255,28 +267,33 @@ public class DropExcel  implements DropTargetListener{
                 periodo.remove(i);
                 title.remove(i);
                 grde.remove(i);
+                fecha.remove(i);
             }
          
         } 
            //Crse();
-        
     }
     
     public void impreDato(){
         System.out.println("subj "+"crse "+"Periodo "+" titile "+"grde ");
+        Object datos[] = new Object[5];
+        Object Cal[] = new Object[3];
         
         for (int i = 0; i <subj.size(); i++) {
-            System.out.println(subj.get(i)+" "+crse.get(i)+" "+periodo.get(i)+" "+title.get(i)+" "+grde.get(i));
+            System.out.println(subj.get(i)+" "+crse.get(i)+" "+periodo.get(i)+" "+title.get(i)+" "+grde.get(i)+" "+fecha.get(i));
             Listado listado = new Listado(subj.get(i).toString(),crse.get(i).toString(),periodo.get(i).toString(),title.get(i).toString(),grde.get(i).toString());
+            bdInsert.insertarAsignaturas(subj.get(i).toString(),crse.get(i).toString(),periodo.get(i).toString(),title.get(i).toString());
+            bdInsert.insertarCalificacion(grde.get(i).toString());
             ListaDeDatos.add(listado);
         }
+        
         System.out.println("tamaño"+subj.size());
     }
     Periodo pt = new  Periodo();
     Repetidor rep=  new Repetidor();
     sheet hoja = new sheet();
     public void Crse(){
-        for (int i = 0; i < crse.size(); i++) {
+        for (int i = 0; i < crse.size(); i++){
             String aux = (String) crse.get(i);
             rep.setIngresar(aux);
             hoja.setCrse(aux);
@@ -284,7 +301,9 @@ public class DropExcel  implements DropTargetListener{
             hoja.setPeriodo((String)periodo.get(i));
             hoja.setTitle((String)title.get(i));
             hoja.setGrde((String)grde.get(i));
+            hoja.setFecha((String)fecha.get(i));
             String per = (String) periodo.get(i);
+            
             pt.setPeriodo(per);
             
             for (int j = i+1; j < crse.size(); j++) {
@@ -317,12 +336,12 @@ public class DropExcel  implements DropTargetListener{
     public void impresion(){
         leerDatos();
         Crse();
-        /*id();
+        id();
         nombre();
         prog();
         estatus();
-        */
-        hoja.impreso();
+        hoja.impreso(estudiante.getId(),estudiante.getNombre(),estudiante.getProg(),estudiante.getEstatus());
+        //bdInsert.insertarAlumno(estudiante.getId(), estudiante.getNombre(),estudiante.getProg(),estudiante.getEstatus());
     }
    
 }
